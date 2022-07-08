@@ -1,0 +1,15 @@
+version: v1
+plugins:
+  - name: go
+    out: internal/idl
+    opt:
+      - paths=source_relative
+  - name: connect-go
+    out: internal/idl
+    opt:
+      - paths=source_relative
+  - name: go-grpc
+    out: internal/idl
+    opt:
+      - require_unimplemented_servers=false
+      - paths=source_relative

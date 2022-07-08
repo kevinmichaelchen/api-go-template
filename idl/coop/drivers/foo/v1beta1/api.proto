@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package coop.drivers.foo.v1beta1;
+
+option go_package = "github.com/kevinmichaelchen/api-go-template/internal/idl/coop/drivers/foo/v1beta1";
+
+import "coop/drivers/foo/v1beta1/foo.proto";
+
+service FooService {
+  rpc CreateFoo(CreateFooRequest) returns (CreateFooResponse) {}
+  rpc GetFoo(GetFooRequest) returns (GetFooResponse) {}
+}
+
+message GetFooRequest {
+  string id = 1;
+}
+
+message GetFooResponse {
+  Foo foo = 1;
+}
+
+message CreateFooRequest {
+  string name = 1;
+}
+
+message CreateFooResponse {
+  Foo foo = 1;
+}

@@ -3,8 +3,10 @@ package sql
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"github.com/XSAM/otelsql"
 	_ "github.com/lib/pq"
+	"github.com/sethvargo/go-envconfig"
 	semconv "go.opentelemetry.io/otel/semconv/v1.10.0"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
@@ -16,9 +18,33 @@ var Module = fx.Module("sql",
 	),
 )
 
+type Config struct {
+	DBConfig *DBConfig `env:",prefix=DB_"`
+}
+
+type DBConfig struct {
+	User string `env:"USER,default=postgres"`
+	Pass string `env:"PASS,default=postgres"`
+	Host string `env:"HOST,default=localhost"`
+	Port int    `env:"PORT,default=5432"`
+	Name string `env:"NAME,default=foo"`
+}
+
 func NewDatabase(logger *zap.Logger, lc fx.Lifecycle) (*sql.DB, error) {
-	// TODO make configurable
-	dsn := "postgres://postgres:postgres@localhost:5432/foo?sslmode=disable"
+	var cfg Config
+	err := envconfig.Process(context.Background(), &cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	dsn := fmt.Sprintf(
+		"postgres://%s:%s@%s:%d/%s?sslmode=disable",
+		cfg.DBConfig.User,
+		cfg.DBConfig.Pass,
+		cfg.DBConfig.Host,
+		cfg.DBConfig.Port,
+		cfg.DBConfig.Name,
+	)
 	db, err := otelsql.Open("postgres", dsn,
 		otelsql.WithAttributes(
 			semconv.DBSystemPostgreSQL,

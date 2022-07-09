@@ -14,9 +14,10 @@ A boilerplate Go repo that comes with:
 
 These libraries do a lot of heavy lifting in terms of boilerplate.
 
-For example, [**sqlboiler**](https://github.com/volatiletech/sqlboiler) makes DB
-CRUD really simple in the 
-[**db** package](https://github.com/kevinmichaelchen/api-go-template/blob/main/internal/service/db/foo.go).
+For example, sqlboiler makes DB CRUD [really simple](https://github.com/kevinmichaelchen/api-go-template/blob/main/internal/service/db/foo.go).
+
+The [fx framework](https://github.com/uber-go/fx/blob/master/example_test.go)
+manages dependency injection and application life-cycle for you.
 
 ## Project structure
 

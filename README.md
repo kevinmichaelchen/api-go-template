@@ -4,20 +4,22 @@
 
 A boilerplate Go repo that comes with:
 
-* **Dependency Injection / App Lifecycle** using [uber-go/fx](https://github.com/uber-go/fx)
+* **Dependency Injection** using [uber-go/fx](https://github.com/uber-go/fx) (:tv: [video](https://www.youtube.com/watch?v=nLskCRJOdxM))
+* **DB Migration Tool** using [golang-migrate](https://github.com/golang-migrate/migrate) (:tv: [video](https://youtu.be/ZRUEJX1fqYc?t=845))
+* **ORM** using [sqlboiler](https://github.com/volatiletech/sqlboiler) (:tv: [video](https://www.youtube.com/watch?v=M9bgMOLQLs8))
 * **Env Var Configs** using [go-envconfig](https://github.com/sethvargo/go-envconfig)
 * **gRPC** using [connect-go](https://github.com/bufbuild/connect-go)
 * **Protobufs**, compiled, formatted, linted, and more with [Buf](https://buf.build/)
-* **DB Migration Tool** using [migrate](https://github.com/golang-migrate/migrate)
-* **ORM** using [sqlboiler](https://github.com/volatiletech/sqlboiler)
 * **Command-Line Interface** using [cobra](https://github.com/spf13/cobra)
 
 These libraries do a lot of heavy lifting in terms of boilerplate.
 
-For example, sqlboiler makes DB CRUD [really simple](https://github.com/kevinmichaelchen/api-go-template/blob/main/internal/service/db/foo.go).
-
-The [fx framework](https://github.com/uber-go/fx/blob/master/example_test.go)
-manages dependency injection and application life-cycle for you.
+For example:
+* The [fx framework](https://github.com/uber-go/fx/blob/master/example_test.go)
+  manages dependency injection and application life-cycle for you.
+* sqlboiler makes DB CRUD [really simple](https://github.com/kevinmichaelchen/api-go-template/blob/main/internal/service/db/foo.go).
+[Raw queries](https://github.com/volatiletech/sqlboiler#raw-query) are supported
+as an escape hatch.
 
 ## Project structure
 

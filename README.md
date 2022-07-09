@@ -86,3 +86,7 @@ We have a sqlboiler command that introspects the DB and generates ORM models.
 make gen-models
 ```
 Configuration comes from [`sqlboiler.toml`](./sqlboiler.toml)
+
+## Metrics
+### Traces
+See traces in Jaeger at http://localhost:16686

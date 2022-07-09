@@ -19,6 +19,7 @@ gen-models:
 .PHONY: migrate-up
 migrate-up:
 	docker run -v $(shell pwd)/schema:/migrations \
+	  --rm \
 	  --network host \
 	  migrate/migrate \
 	  -path=/migrations/ \
@@ -28,6 +29,7 @@ migrate-up:
 .PHONY: migrate-down
 migrate-down:
 	docker run -v $(shell pwd)/schema:/migrations \
+	  --rm \
 	  --network host \
 	  migrate/migrate \
 	  -path=/migrations/ \

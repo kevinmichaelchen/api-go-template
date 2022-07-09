@@ -16,6 +16,7 @@ To run database migrations:
 ```bash
 docker run -v $(pwd)/schema:/migrations \
   --network host migrate/migrate \
+  --rm \
   -path=/migrations/ \
   -database postgres://postgres:postgres@localhost:5432/foo\?sslmode=disable \
   up

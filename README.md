@@ -75,6 +75,7 @@ or you can run:
 ```bash
 docker run -v $(pwd)/schema:/migrations \
   --network host \
+  --rm \
   migrate/migrate \
   -path=/migrations/ \
   -database postgres://postgres:postgres@localhost:5432/foo\?sslmode=disable \
@@ -88,6 +89,7 @@ To create a new migration called `create-new-table`, run:
 ```bash
 docker run -v $(pwd)/schema:/migrations \
   --network host \
+  --rm \
   migrate/migrate \
   -path=/migrations/ \
   create \

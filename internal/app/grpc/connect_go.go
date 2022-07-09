@@ -15,24 +15,34 @@ import (
 	"net/http"
 )
 
-func RegisterConnectGoServer(
-	logger *zap.Logger,
-	connectSvc *service.ConnectWrapper,
-	mux *http.ServeMux,
-) {
+type registerConnectGoServerInput struct {
+	fx.In
+
+	Logger     *zap.Logger
+	ConnectSvc *service.ConnectWrapper
+	Mux        *http.ServeMux `name:"connectGoMux"`
+}
+
+func RegisterConnectGoServer(in registerConnectGoServerInput) {
 	// Register our Connect-Go server
 	path, handler := v1beta1connect.NewFooServiceHandler(
-		connectSvc,
-		connect.WithInterceptors(getUnaryInterceptorsForConnect(logger)...),
+		in.ConnectSvc,
+		connect.WithInterceptors(getUnaryInterceptorsForConnect(in.Logger)...),
 	)
-	mux.Handle(path, handler)
+	in.Mux.Handle(path, handler)
 }
 
 func NewConnectWrapper(s *service.Service) *service.ConnectWrapper {
 	return service.NewConnectWrapper(s)
 }
 
-func NewConnectGoServer(lc fx.Lifecycle, logger *zap.Logger) *http.ServeMux {
+type NewConnectGoServerOutput struct {
+	fx.Out
+
+	Mux *http.ServeMux `name:"connectGoMux"`
+}
+
+func NewConnectGoServer(lc fx.Lifecycle, logger *zap.Logger) NewConnectGoServerOutput {
 	mux := http.NewServeMux()
 	// TODO make configurable
 	address := fmt.Sprintf("localhost:%d", 8081)
@@ -61,7 +71,9 @@ func NewConnectGoServer(lc fx.Lifecycle, logger *zap.Logger) *http.ServeMux {
 			return srv.Shutdown(ctx)
 		},
 	})
-	return mux
+	return NewConnectGoServerOutput{
+		Mux: mux,
+	}
 }
 
 func newCORS() *cors.Cors {

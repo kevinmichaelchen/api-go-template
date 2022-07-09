@@ -2,7 +2,6 @@ package metrics
 
 import (
 	"context"
-	"fmt"
 	"go.opentelemetry.io/otel/exporters/prometheus"
 	"go.opentelemetry.io/otel/metric/global"
 	"go.opentelemetry.io/otel/sdk/metric/aggregator/histogram"
@@ -15,34 +14,38 @@ import (
 	"net/http"
 )
 
-const muxName = "metricsMux"
-
 var Module = fx.Module("metrics",
 	fx.Provide(
-		fx.Annotate(
-			NewMux,
-			fx.ResultTags(fmt.Sprintf(`name:"%s"`, muxName)),
-		),
+		NewMux,
 		NewPrometheusExporter,
 	),
 	fx.Invoke(
-		fx.Annotate(
-			Register,
-			fx.ParamTags(``, fmt.Sprintf(`name:"%s"`, muxName)),
-		),
+		Register,
 	),
 )
 
-func Register(exporter *prometheus.Exporter, mux *http.ServeMux) {
-	// Set global meter provider
-	global.SetMeterProvider(exporter.MeterProvider())
+type registerInput struct {
+	fx.In
 
-	// Register the Prometheus export handler on our Mux HTTP Server.
-	mux.HandleFunc("/", exporter.ServeHTTP)
+	Exporter *prometheus.Exporter
+	Mux      *http.ServeMux `name:"metricsMux"`
 }
 
-// TODO use https://pkg.go.dev/go.uber.org/fx#hdr-Named_Values
-func NewMux(lc fx.Lifecycle) *http.ServeMux {
+func Register(in registerInput) {
+	// Set global meter provider
+	global.SetMeterProvider(in.Exporter.MeterProvider())
+
+	// Register the Prometheus export handler on our Mux HTTP Server.
+	in.Mux.HandleFunc("/", in.Exporter.ServeHTTP)
+}
+
+type NewMuxOutput struct {
+	fx.Out
+
+	Mux *http.ServeMux `name:"metricsMux"`
+}
+
+func NewMux(lc fx.Lifecycle) NewMuxOutput {
 	mux := http.NewServeMux()
 	server := &http.Server{
 		Addr:    ":2222",
@@ -63,7 +66,9 @@ func NewMux(lc fx.Lifecycle) *http.ServeMux {
 		},
 	})
 
-	return mux
+	return NewMuxOutput{
+		Mux: mux,
+	}
 }
 
 func NewPrometheusExporter(lc fx.Lifecycle) (*prometheus.Exporter, error) {

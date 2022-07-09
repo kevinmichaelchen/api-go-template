@@ -19,21 +19,11 @@ var Module = fx.Module("grpc",
 	fx.Provide(
 		NewConnectWrapper,
 		NewGRPCServer,
-		fx.Annotate(
-			NewConnectGoServer,
-			// Because the output of NewConnectGoServer returns a *http.ServeMux
-			// and because we have other DI functions that return that as well,
-			// we have to use ResultTags to disambiguate.
-			fx.ResultTags(`name:"connectGoMux"`),
-		),
+		NewConnectGoServer,
 	),
 	fx.Invoke(
 		RegisterGrpcServer,
-		fx.Annotate(
-			RegisterConnectGoServer,
-			// TODO making this positional seems a lot more brittle than just using a struct with annotated fields
-			fx.ParamTags(``, ``, `name:"connectGoMux"`),
-		),
+		RegisterConnectGoServer,
 	),
 )
 

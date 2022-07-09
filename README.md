@@ -11,17 +11,24 @@ A boilerplate Go repo that comes with:
 * **ORM** using [sqlboiler](https://github.com/volatiletech/sqlboiler)
 * **Command-Line Interface** using [cobra](https://github.com/spf13/cobra)
 
+These libraries do a lot of heavy lifting in terms of boilerplate.
+
+For example, [**sqlboiler**](https://github.com/volatiletech/sqlboiler) makes DB
+CRUD really simple in the 
+[**db** package](https://github.com/kevinmichaelchen/api-go-template/blob/main/internal/service/db/foo.go).
+
 ## Project structure
 
-| Directory                                    | Description                               |
-|----------------------------------------------|-------------------------------------------|
-| [`./cmd`](./cmd)                             | CLI for making gRPC requests              |
-| [`./idl`](./idl)                             | Protobufs (Interface Definition Language) |
-| [`./internal/app`](./internal/app)           | App dependency injection / initialization |
-| [`./internal/idl`](./internal/idl)           | Auto-generated protobufs                  |
-| [`./internal/models`](./internal/models)     | Auto-generated ORM / models               |
-| [`./internal/service`](./internal/service)   | Service layer / Business logic            |
-| [`./schema`](./schema)                       | SQL migration scripts                     |
+| Directory                                        | Description                               |
+|--------------------------------------------------|-------------------------------------------|
+| [`./cmd`](./cmd)                                 | CLI for making gRPC requests              |
+| [`./idl`](./idl)                                 | Protobufs (Interface Definition Language) |
+| [`./internal/app`](./internal/app)               | App dependency injection / initialization |
+| [`./internal/idl`](./internal/idl)               | Auto-generated protobufs                  |
+| [`./internal/models`](./internal/models)         | Auto-generated ORM / models               |
+| [`./internal/service`](./internal/service)       | Service layer / Business logic            |
+| [`./internal/service/db`](./internal/service/db) | Data layer                                |
+| [`./schema`](./schema)                           | SQL migration scripts                     |
 
 ## Getting started
 ```bash

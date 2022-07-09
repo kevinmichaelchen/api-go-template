@@ -7,6 +7,7 @@ A boilerplate Go repo that comes with:
 * **Dependency Injection / App Lifecycle** using [uber-go/fx](https://github.com/uber-go/fx)
 * **Env Var Configs** using [go-envconfig](https://github.com/sethvargo/go-envconfig)
 * **gRPC** using [connect-go](https://github.com/bufbuild/connect-go)
+* **Protobufs**, compiled, formatted, linted, and more with [Buf](https://buf.build/)
 * **DB Migration Tool** using [migrate](https://github.com/golang-migrate/migrate)
 * **ORM** using [sqlboiler](https://github.com/volatiletech/sqlboiler)
 * **Command-Line Interface** using [cobra](https://github.com/spf13/cobra)

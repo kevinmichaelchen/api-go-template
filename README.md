@@ -48,6 +48,17 @@ http POST \
     id="cb4c4rnrirfucgsert7g"
 ```
 
+Or with curl:
+```bash
+curl -X POST http://localhost:8081/coop.drivers.foo.v1beta1.FooService/CreateFoo \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Kevin"}'
+
+curl -X POST http://localhost:8081/coop.drivers.foo.v1beta1.FooService/GetFoo \
+  -H "Content-Type: application/json" \
+  -d '{"id": "cb4c4rnrirfucgsert7g"}'
+```
+
 ## Database
 ### Run Migrations
 ```bash

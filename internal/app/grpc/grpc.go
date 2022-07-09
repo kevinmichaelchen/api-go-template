@@ -17,6 +17,7 @@ import (
 
 var Module = fx.Module("grpc",
 	fx.Provide(
+		NewConfig,
 		NewConnectWrapper,
 		NewGRPCServer,
 		NewConnectGoServer,
@@ -37,8 +38,7 @@ func RegisterGrpcServer(
 	reflection.Register(server)
 }
 
-func NewGRPCServer(lc fx.Lifecycle, logger *zap.Logger) (*grpc.Server, error) {
-	// TODO configure options here
+func NewGRPCServer(lc fx.Lifecycle, logger *zap.Logger, cfg Config) (*grpc.Server, error) {
 	//var opts grpc.ServerOption
 	s := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
@@ -56,8 +56,7 @@ func NewGRPCServer(lc fx.Lifecycle, logger *zap.Logger) (*grpc.Server, error) {
 		// passed via Go's usual context.Context.
 		OnStart: func(context.Context) error {
 			logger.Info("Starting gRPC server.")
-			// TODO make configurable
-			address := fmt.Sprintf(":%d", 8080)
+			address := fmt.Sprintf(":%d", cfg.GRPCConfig.Port)
 			lis, err := net.Listen("tcp", address)
 			if err != nil {
 				logger.Sugar().Fatal("Failed to listen on address \"%s\"", address, zap.Error(err))

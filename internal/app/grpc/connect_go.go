@@ -42,10 +42,9 @@ type NewConnectGoServerOutput struct {
 	Mux *http.ServeMux `name:"connectGoMux"`
 }
 
-func NewConnectGoServer(lc fx.Lifecycle, logger *zap.Logger) NewConnectGoServerOutput {
+func NewConnectGoServer(lc fx.Lifecycle, logger *zap.Logger, cfg Config) NewConnectGoServerOutput {
 	mux := http.NewServeMux()
-	// TODO make configurable
-	address := fmt.Sprintf("localhost:%d", 8081)
+	address := fmt.Sprintf("%s:%d", cfg.ConnectConfig.Host, cfg.ConnectConfig.Port)
 	srv := &http.Server{
 		Addr: address,
 		// Use h2c so we can serve HTTP/2 without TLS.
@@ -64,7 +63,7 @@ func NewConnectGoServer(lc fx.Lifecycle, logger *zap.Logger) NewConnectGoServerO
 					logger.Error("connect-go ListenAndServe failed", zap.Error(err))
 				}
 			}()
-			logger.Sugar().Infof("Listing for connect-go on: %s", address)
+			logger.Sugar().Infof("Listening for connect-go on: %s", address)
 			return nil
 		},
 		OnStop: func(ctx context.Context) error {

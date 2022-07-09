@@ -15,9 +15,9 @@ A boilerplate Go repo that comes with:
 These libraries do a lot of heavy lifting in terms of boilerplate.
 
 For example:
-* The [fx framework](https://github.com/uber-go/fx/blob/master/example_test.go)
-  manages dependency injection and application life-cycle for you.
-* sqlboiler makes DB CRUD [really simple](https://github.com/kevinmichaelchen/api-go-template/blob/main/internal/service/db/foo.go).
+* The **fx** framework manages dependency injection and application life-cycle 
+for you. (See [`example_test.go`](https://github.com/uber-go/fx/blob/master/example_test.go)).
+* **sqlboiler** makes DB CRUD really simple. (See [`foo.go`](https://github.com/kevinmichaelchen/api-go-template/blob/main/internal/service/db/foo.go)).
 [Raw queries](https://github.com/volatiletech/sqlboiler#raw-query) are supported
 as an escape hatch.
 

@@ -5,7 +5,12 @@ all:
 
 .PHONY: gen-proto
 gen-proto:
+	rm -rf idl/{google,grafeas,validate} || true
+	buf mod update idl
+	buf lint idl
+	buf format idl -w
 	buf generate idl
+	buf export buf.build/googleapis/googleapis -o idl
 
 .PHONY: gen-models
 gen-models:

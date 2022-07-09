@@ -1,4 +1,6 @@
 version: v1
+deps:
+  - buf.build/googleapis/googleapis:c830dd71a7b14187af97bbaa070a8237
 breaking:
   use:
     - FILE

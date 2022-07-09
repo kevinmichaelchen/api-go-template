@@ -1,1 +1,7 @@
+# JetBrains
 .idea
+
+# Buf Exports
+idl/google
+idl/grafeas
+idl/validate

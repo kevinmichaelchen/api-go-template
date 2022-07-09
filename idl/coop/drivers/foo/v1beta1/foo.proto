@@ -2,9 +2,12 @@ syntax = "proto3";
 
 package coop.drivers.foo.v1beta1;
 
+import "google/type/datetime.proto";
+
 option go_package = "github.com/kevinmichaelchen/api-go-template/internal/idl/coop/drivers/foo/v1beta1";
 
 message Foo {
   string id = 1;
   string name = 2;
+  google.type.DateTime date_time = 3;
 }

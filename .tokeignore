@@ -10,3 +10,4 @@ internal/models
 *.json
 *.toml
 *_test.go
+*.md

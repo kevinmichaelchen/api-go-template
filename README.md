@@ -4,7 +4,7 @@
 
 A boilerplate Go repo that comes with:
 
-* **Dependency Injection** using [fx](https://github.com/uber-go/fx)
+* **Dependency Injection / App Lifecycle** using [uber-go/fx](https://github.com/uber-go/fx)
 * **Env Var Configs** using [go-envconfig](https://github.com/sethvargo/go-envconfig)
 * **gRPC** using [connect-go](https://github.com/bufbuild/connect-go)
 * **DB Migration Tool** using [migrate](https://github.com/golang-migrate/migrate)

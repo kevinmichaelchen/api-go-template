@@ -15,7 +15,7 @@ func UnaryServerInterceptor() grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
 		resp, err = handler(ctx, req)
 
-		handleStatusMetrics(ctx, err)
+		handleStatusMetrics(ctx, err, info.FullMethod)
 
 		return
 	}
@@ -29,7 +29,7 @@ func UnaryServerInterceptorForConnect() connect.UnaryInterceptorFunc {
 		) (connect.AnyResponse, error) {
 			res, err := next(ctx, req)
 
-			handleStatusMetrics(ctx, err)
+			handleStatusMetrics(ctx, err, req.Spec().Procedure)
 
 			return res, err
 		})
@@ -37,9 +37,9 @@ func UnaryServerInterceptorForConnect() connect.UnaryInterceptorFunc {
 	return connect.UnaryInterceptorFunc(interceptor)
 }
 
-func handleStatusMetrics(ctx context.Context, err error) {
+func handleStatusMetrics(ctx context.Context, err error, counterName string) {
 	meter := global.Meter("go.opentelemetry.io/otel/exporters/prometheus")
-	counter, err := meter.SyncFloat64().Counter("ex.com.three")
+	counter, err := meter.SyncFloat64().Counter(counterName)
 	if err != nil {
 		log.Panicf("failed to initialize instrument: %v", err)
 	}

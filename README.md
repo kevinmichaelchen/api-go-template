@@ -105,6 +105,9 @@ make gen-models
 ```
 Configuration comes from [`sqlboiler.toml`](./sqlboiler.toml)
 
-## Metrics
+## Telemetry
 ### Traces
-See traces in Jaeger at http://localhost:16686
+See traces in [Jaeger](https://www.jaegertracing.io/) [here](http://localhost:16686)
+
+### Metrics
+See metrics in [Prometheus](https://prometheus.io/) [here](http://localhost:9090/graph?g0.expr=key_coop_drivers_foo_v1beta1_FooService_CreateFoo&g0.tab=0&g0.stacked=0&g0.show_exemplars=0&g0.range_input=15m).

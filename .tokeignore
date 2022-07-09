@@ -11,3 +11,4 @@ internal/models
 *.toml
 *_test.go
 *.md
+Makefile

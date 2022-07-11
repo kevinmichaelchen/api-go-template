@@ -1,0 +1,45 @@
+name: Build & Test
+
+on:
+  pull_request: # Apply to all pull requests
+  push:
+    branches:
+      - main # Apply to all pushes to `main`
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Optional Tag'
+        required: false
+
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+    # Docker Hub image that `container-job` executes in
+    container: golang:1.17
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_DB: footest
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v3
+
+#      - name: golangci-lint
+#        uses: golangci/golangci-lint-action@v3
+
+      - name: Test
+        run: make migrate-up-test test

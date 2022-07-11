@@ -1,0 +1,52 @@
+name: Publish protobufs
+
+on:
+  pull_request: # Apply to all pull requests
+
+jobs:
+  validate-protos:
+    if: jobs.
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Check to see if there were any protobuf changes
+      - name: Check for protobuf changes
+        uses: technote-space/get-diff-action@v6
+        id: git-diff
+        with:
+          PATTERNS: |
+            idl/**/*.proto
+
+      # Install the `buf` CLI
+      - uses: bufbuild/buf-setup-action@v1
+        # Only execute if there were any protobuf changes
+        if: steps.git-diff.outputs.diff
+
+      # Lint your Protobuf sources
+      - name: Lint Protobufs
+        uses: bufbuild/buf-lint-action@v1
+        # Only execute if there were any protobuf changes
+        if: steps.git-diff.outputs.diff
+        with:
+          input: .
+
+      # Run breaking change detection for PRs
+      - name: Breaking Change Detection
+        uses: bufbuild/buf-breaking-action@v1
+        if: ${{ steps.git-diff.outputs.diff && github.event_name == 'pull_request' }}
+        with:
+          input: .
+          against: 'https://github.com/kevinmichaelchen/api-go-template.git#branch=main'
+
+      # Run breaking change detection for `main` branch
+      - name: Breaking Change Detection
+        uses: bufbuild/buf-breaking-action@v1
+        if: ${{ steps.git-diff.outputs.diff && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        with:
+          input: .
+          against: 'https://github.com/kevinmichaelchen/api-go-template.git#branch=main,ref=HEAD~1'

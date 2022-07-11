@@ -35,3 +35,17 @@ migrate-down:
 	  -path=/migrations/ \
 	  -database postgres://postgres:postgres@localhost:5432/foo\?sslmode=disable \
 	  down -all
+
+.PHONY: test
+test:
+	go test ./... --tags=integration
+
+.PHONY: migrate-up-test
+migrate-up-test:
+	docker run -v $(shell pwd)/schema:/migrations \
+	  --rm \
+	  --network host \
+	  migrate/migrate \
+	  -path=/migrations/ \
+	  -database postgres://postgres:postgres@localhost:5432/footest\?sslmode=disable \
+	  up

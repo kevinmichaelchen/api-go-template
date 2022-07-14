@@ -1,9 +1,5 @@
 Our protobufs use dependencies from the
 [Buf Schema Registry](https://buf.build/explore).
 
-You'll need to download these locally for your IDE to be happy.
-
-From the root-level of this repo, run:
-```
-buf export buf.build/googleapis/googleapis -o idl
-```
+To resolve the dependencies in any JetBrains editor (GoLand, IntelliJ), check
+out the official [plugin](https://plugins.jetbrains.com/plugin/19147-buf-for-protocol-buffers).

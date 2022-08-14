@@ -2,21 +2,21 @@ package graphql
 
 import "github.com/graphql-go/graphql"
 
-func NewSchema() (graphql.Schema, error) {
+func NewSchema() (*graphql.Schema, error) {
 	q := graphql.NewObject(graphql.ObjectConfig{
-		Name: "Query",
+		Name: "RootQuery",
 		Fields: graphql.Fields{
 			"name": &graphql.Field{
 				Name: "name",
 				Type: graphql.String,
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-					return p.Context.Value("name"), nil
+					return "Kevin", nil
 				},
 			},
 		},
 	})
 
-	return graphql.NewSchema(graphql.SchemaConfig{
+	s, err := graphql.NewSchema(graphql.SchemaConfig{
 		Query:        q,
 		Mutation:     nil,
 		Subscription: nil,
@@ -24,4 +24,8 @@ func NewSchema() (graphql.Schema, error) {
 		Directives:   nil,
 		Extensions:   nil,
 	})
+	if err != nil {
+		return nil, err
+	}
+	return &s, nil
 }

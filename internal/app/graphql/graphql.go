@@ -74,9 +74,10 @@ func NewGraphQL(lc fx.Lifecycle, logger *zap.Logger, cfg Config, crs *cors.Cors)
 
 func RegisterGraphQL(in registerGraphQLInput) {
 	h := handler.New(&handler.Config{
-		Schema:   in.Schema,
-		Pretty:   true,
-		GraphiQL: true,
+		Schema:     in.Schema,
+		Pretty:     true,
+		GraphiQL:   true,
+		Playground: true,
 	})
 	in.Mux.Handle("/graphql", h)
 }

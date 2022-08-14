@@ -2,6 +2,8 @@ package app
 
 import (
 	"github.com/kevinmichaelchen/api-go-template/internal/app/config"
+	"github.com/kevinmichaelchen/api-go-template/internal/app/cors"
+	"github.com/kevinmichaelchen/api-go-template/internal/app/graphql"
 	"github.com/kevinmichaelchen/api-go-template/internal/app/grpc"
 	"github.com/kevinmichaelchen/api-go-template/internal/app/logging"
 	"github.com/kevinmichaelchen/api-go-template/internal/app/metrics"
@@ -13,6 +15,8 @@ import (
 
 var Module = fx.Options(
 	config.Module,
+	cors.Module,
+	graphql.Module,
 	grpc.Module,
 	logging.Module,
 	metrics.Module,

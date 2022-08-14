@@ -42,14 +42,14 @@ type NewConnectGoServerOutput struct {
 	Mux *http.ServeMux `name:"connectGoMux"`
 }
 
-func NewConnectGoServer(lc fx.Lifecycle, logger *zap.Logger, cfg Config) NewConnectGoServerOutput {
+func NewConnectGoServer(lc fx.Lifecycle, logger *zap.Logger, cfg Config, crs *cors.Cors) NewConnectGoServerOutput {
 	mux := http.NewServeMux()
 	address := fmt.Sprintf("%s:%d", cfg.ConnectConfig.Host, cfg.ConnectConfig.Port)
 	srv := &http.Server{
 		Addr: address,
 		// Use h2c so we can serve HTTP/2 without TLS.
 		Handler: h2c.NewHandler(
-			newCORS().Handler(mux),
+			crs.Handler(mux),
 			&http2.Server{},
 		),
 	}
@@ -73,38 +73,4 @@ func NewConnectGoServer(lc fx.Lifecycle, logger *zap.Logger, cfg Config) NewConn
 	return NewConnectGoServerOutput{
 		Mux: mux,
 	}
-}
-
-func newCORS() *cors.Cors {
-	// To let web developers play with the demo service from browsers, we need a
-	// very permissive CORS setup.
-	return cors.New(cors.Options{
-		AllowedMethods: []string{
-			http.MethodHead,
-			http.MethodGet,
-			http.MethodPost,
-			http.MethodPut,
-			http.MethodPatch,
-			http.MethodDelete,
-		},
-		AllowOriginFunc: func(origin string) bool {
-			// Allow all origins, which effectively disables CORS.
-			return true
-		},
-		AllowedHeaders: []string{"*"},
-		ExposedHeaders: []string{
-			// Content-Type is in the default safelist.
-			"Accept",
-			"Accept-Encoding",
-			"Accept-Post",
-			"Connect-Accept-Encoding",
-			"Connect-Content-Encoding",
-			"Content-Encoding",
-			"Grpc-Accept-Encoding",
-			"Grpc-Encoding",
-			"Grpc-Message",
-			"Grpc-Status",
-			"Grpc-Status-Details-Bin",
-		},
-	})
 }

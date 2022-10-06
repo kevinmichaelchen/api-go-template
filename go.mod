@@ -4,7 +4,8 @@ go 1.18
 
 require (
 	github.com/XSAM/otelsql v0.14.1
-	github.com/bufbuild/connect-go v0.1.0
+	github.com/bufbuild/connect-go v1.0.0
+	github.com/bufbuild/connect-grpchealth-go v1.0.0
 	github.com/friendsofgo/errors v0.9.2
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 	github.com/kat-co/vala v0.0.0-20170210184112-42e1d8b61f12
@@ -31,7 +32,7 @@ require (
 	golang.org/x/net v0.0.0-20220425223048-2871e0cb64e4
 	google.golang.org/genproto v0.0.0-20220429170224-98d788798c3e
 	google.golang.org/grpc v1.46.0
-	google.golang.org/protobuf v1.28.0
+	google.golang.org/protobuf v1.28.1
 )
 
 require (

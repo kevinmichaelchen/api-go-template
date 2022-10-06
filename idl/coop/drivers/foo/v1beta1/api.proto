@@ -4,8 +4,6 @@ package coop.drivers.foo.v1beta1;
 
 import "coop/drivers/foo/v1beta1/foo.proto";
 
-option go_package = "github.com/kevinmichaelchen/api-go-template/internal/idl/coop/drivers/foo/v1beta1";
-
 service FooService {
   rpc CreateFoo(CreateFooRequest) returns (CreateFooResponse) {}
   rpc GetFoo(GetFooRequest) returns (GetFooResponse) {}

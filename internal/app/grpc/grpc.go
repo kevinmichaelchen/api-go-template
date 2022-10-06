@@ -33,7 +33,7 @@ func RegisterGrpcServer(
 	server *grpc.Server,
 ) {
 	// Register our gRPC server
-	v1beta1.RegisterFooServiceServer(server, svc)
+	foov1beta1.RegisterFooServiceServer(server, svc)
 	grpc_health_v1.RegisterHealthServer(server, svc)
 	reflection.Register(server)
 }

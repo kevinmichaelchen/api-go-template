@@ -9,7 +9,7 @@ import (
 
 func getFoo(cmd *cobra.Command, args []string) {
 	// Create request
-	req := &v1beta1.GetFooRequest{
+	req := &foov1beta1.GetFooRequest{
 		Id: id,
 	}
 
@@ -21,7 +21,7 @@ func getFoo(cmd *cobra.Command, args []string) {
 	log.Println(s)
 
 	// Execute request
-	client := v1beta1.NewFooServiceClient(conn)
+	client := foov1beta1.NewFooServiceClient(conn)
 	res, err := client.GetFoo(context.Background(), req)
 	if err != nil {
 		log.Fatalf("gRPC request failed: %v", err)
@@ -37,7 +37,7 @@ func getFoo(cmd *cobra.Command, args []string) {
 
 func createFoo(cmd *cobra.Command, args []string) {
 	// Create request
-	req := &v1beta1.CreateFooRequest{
+	req := &foov1beta1.CreateFooRequest{
 		Name: name,
 	}
 
@@ -49,7 +49,7 @@ func createFoo(cmd *cobra.Command, args []string) {
 	log.Println(s)
 
 	// Execute request
-	client := v1beta1.NewFooServiceClient(conn)
+	client := foov1beta1.NewFooServiceClient(conn)
 	res, err := client.CreateFoo(context.Background(), req)
 	if err != nil {
 		log.Fatalf("gRPC request failed: %v", err)

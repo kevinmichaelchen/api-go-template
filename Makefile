@@ -5,10 +5,10 @@ all:
 
 .PHONY: gen-proto
 gen-proto:
-	buf mod update idl
-	buf lint idl
-	buf format idl -w
-	buf generate idl
+	docker run --rm --volume "$(shell pwd):/workspace" --workdir /workspace bufbuild/buf mod update idl
+	docker run --rm --volume "$(shell pwd):/workspace" --workdir /workspace bufbuild/buf lint
+	docker run --rm --volume "$(shell pwd):/workspace" --workdir /workspace bufbuild/buf format -w
+	docker run --rm --volume "$(shell pwd):/workspace" --workdir /workspace bufbuild/buf generate
 
 .PHONY: gen-models
 gen-models:

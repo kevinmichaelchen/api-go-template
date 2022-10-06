@@ -2,7 +2,7 @@
 //
 // Source: coop/drivers/foo/v1beta1/api.proto
 
-package v1beta1connect
+package foov1beta1connect
 
 import (
 	context "context"

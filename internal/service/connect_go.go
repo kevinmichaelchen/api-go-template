@@ -17,8 +17,8 @@ func NewConnectWrapper(s *Service) *ConnectWrapper {
 
 func (c *ConnectWrapper) GetFoo(
 	ctx context.Context,
-	req *connect.Request[v1beta1.GetFooRequest],
-) (*connect.Response[v1beta1.GetFooResponse], error) {
+	req *connect.Request[foov1beta1.GetFooRequest],
+) (*connect.Response[foov1beta1.GetFooResponse], error) {
 	res, err := c.s.GetFoo(ctx, req.Msg)
 	if err != nil {
 		return nil, err
@@ -30,8 +30,8 @@ func (c *ConnectWrapper) GetFoo(
 
 func (c *ConnectWrapper) CreateFoo(
 	ctx context.Context,
-	req *connect.Request[v1beta1.CreateFooRequest],
-) (*connect.Response[v1beta1.CreateFooResponse], error) {
+	req *connect.Request[foov1beta1.CreateFooRequest],
+) (*connect.Response[foov1beta1.CreateFooResponse], error) {
 	res, err := c.s.CreateFoo(ctx, req.Msg)
 	if err != nil {
 		return nil, err

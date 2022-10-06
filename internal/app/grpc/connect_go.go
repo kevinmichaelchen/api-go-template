@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/bufbuild/connect-go"
-	"github.com/kevinmichaelchen/api-go-template/internal/idl/coop/drivers/foo/v1beta1/v1beta1connect"
+	"github.com/kevinmichaelchen/api-go-template/internal/idl/coop/drivers/foo/v1beta1/foov1beta1connect"
 	"github.com/kevinmichaelchen/api-go-template/internal/service"
 	"github.com/rs/cors"
 	"go.uber.org/fx"
@@ -25,7 +25,7 @@ type registerConnectGoServerInput struct {
 
 func RegisterConnectGoServer(in registerConnectGoServerInput) {
 	// Register our Connect-Go server
-	path, handler := v1beta1connect.NewFooServiceHandler(
+	path, handler := foov1beta1connect.NewFooServiceHandler(
 		in.ConnectSvc,
 		connect.WithInterceptors(getUnaryInterceptorsForConnect(in.Logger)...),
 	)

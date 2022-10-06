@@ -18,7 +18,7 @@ func NewService(dataStore *db.Store) *Service {
 	}
 }
 
-func (s *Service) CreateFoo(ctx context.Context, r *v1beta1.CreateFooRequest) (*v1beta1.CreateFooResponse, error) {
+func (s *Service) CreateFoo(ctx context.Context, r *foov1beta1.CreateFooRequest) (*foov1beta1.CreateFooResponse, error) {
 	//err := validate(r, r)
 	//if err != nil {
 	//	return nil, err
@@ -26,7 +26,7 @@ func (s *Service) CreateFoo(ctx context.Context, r *v1beta1.CreateFooRequest) (*
 	return s.dataStore.CreateFoo(ctx, r)
 }
 
-func (s *Service) GetFoo(ctx context.Context, r *v1beta1.GetFooRequest) (*v1beta1.GetFooResponse, error) {
+func (s *Service) GetFoo(ctx context.Context, r *foov1beta1.GetFooRequest) (*foov1beta1.GetFooResponse, error) {
 	//err := validate(r, r)
 	//if err != nil {
 	//	return nil, err

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/bufbuild/connect-go"
+	grpchealth "github.com/bufbuild/connect-grpchealth-go"
 	"github.com/kevinmichaelchen/api-go-template/internal/idl/coop/drivers/foo/v1beta1/foov1beta1connect"
 	"github.com/kevinmichaelchen/api-go-template/internal/service"
 	"github.com/rs/cors"
@@ -29,6 +30,13 @@ func RegisterConnectGoServer(in registerConnectGoServerInput) {
 		in.ConnectSvc,
 		connect.WithInterceptors(getUnaryInterceptorsForConnect(in.Logger)...),
 	)
+	checker := grpchealth.NewStaticChecker(
+		// protoc-gen-connect-go generates package-level constants
+		// for these fully-qualified protobuf service names, so we'd be able
+		// to reference foov1beta1.FooService as opposed to foo.v1beta1.FooService.
+		"coop.drivers.foov1beta1.FooService",
+	)
+	in.Mux.Handle(grpchealth.NewHandler(checker))
 	in.Mux.Handle(path, handler)
 }
 

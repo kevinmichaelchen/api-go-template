@@ -4,8 +4,6 @@ import (
 	"context"
 	"github.com/kevinmichaelchen/api-go-template/internal/idl/coop/drivers/foo/v1beta1"
 	"github.com/kevinmichaelchen/api-go-template/internal/service/db"
-	"github.com/kevinmichaelchen/api-go-template/internal/service/health"
-	healthV1 "google.golang.org/grpc/health/grpc_health_v1"
 )
 
 type Service struct {
@@ -32,12 +30,4 @@ func (s *Service) GetFoo(ctx context.Context, r *foov1beta1.GetFooRequest) (*foo
 	//	return nil, err
 	//}
 	return s.dataStore.GetFoo(ctx, r)
-}
-
-func (s *Service) Check(ctx context.Context, in *healthV1.HealthCheckRequest) (*healthV1.HealthCheckResponse, error) {
-	return health.Check(ctx, in)
-}
-
-func (s *Service) Watch(in *healthV1.HealthCheckRequest, srv healthV1.Health_WatchServer) error {
-	return health.Watch(in, srv)
 }

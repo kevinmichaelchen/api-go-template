@@ -10,7 +10,6 @@ import (
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/reflection"
 	"net"
 )
@@ -34,7 +33,6 @@ func RegisterGrpcServer(
 ) {
 	// Register our gRPC server
 	foov1beta1.RegisterFooServiceServer(server, svc)
-	grpc_health_v1.RegisterHealthServer(server, svc)
 	reflection.Register(server)
 }
 

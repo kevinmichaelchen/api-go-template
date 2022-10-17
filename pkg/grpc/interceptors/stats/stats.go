@@ -5,7 +5,7 @@ import (
 	"github.com/bufbuild/connect-go"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/metric/global"
-	semconv "go.opentelemetry.io/otel/semconv/v1.10.0"
+	semconv "go.opentelemetry.io/otel/semconv/v1.12.0"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"
 	"log"
@@ -39,6 +39,7 @@ func UnaryServerInterceptorForConnect() connect.UnaryInterceptorFunc {
 
 func handleStatusMetrics(ctx context.Context, err error, counterName string) {
 	meter := global.Meter("go.opentelemetry.io/otel/exporters/prometheus")
+
 	counter, err := meter.SyncFloat64().Counter(counterName)
 	if err != nil {
 		log.Panicf("failed to initialize instrument: %v", err)

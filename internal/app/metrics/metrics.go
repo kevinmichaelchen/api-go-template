@@ -2,13 +2,11 @@ package metrics
 
 import (
 	"context"
-	"go.opentelemetry.io/otel/exporters/prometheus"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	otelprom "go.opentelemetry.io/otel/exporters/prometheus"
 	"go.opentelemetry.io/otel/metric/global"
-	"go.opentelemetry.io/otel/sdk/metric/aggregator/histogram"
-	controller "go.opentelemetry.io/otel/sdk/metric/controller/basic"
-	"go.opentelemetry.io/otel/sdk/metric/export/aggregation"
-	processor "go.opentelemetry.io/otel/sdk/metric/processor/basic"
-	selector "go.opentelemetry.io/otel/sdk/metric/selector/simple"
+	"go.opentelemetry.io/otel/sdk/metric"
 	"go.uber.org/fx"
 	"log"
 	"net/http"
@@ -27,16 +25,24 @@ var Module = fx.Module("metrics",
 type registerInput struct {
 	fx.In
 
-	Exporter *prometheus.Exporter
+	Exporter *otelprom.Exporter
 	Mux      *http.ServeMux `name:"metricsMux"`
 }
 
-func Register(in registerInput) {
+func Register(in registerInput) error {
 	// Set global meter provider
-	global.SetMeterProvider(in.Exporter.MeterProvider())
+	provider := metric.NewMeterProvider(metric.WithReader(in.Exporter))
+	global.SetMeterProvider(provider)
 
 	// Register the Prometheus export handler on our Mux HTTP Server.
-	in.Mux.HandleFunc("/", in.Exporter.ServeHTTP)
+	registry := prometheus.NewRegistry()
+	err := registry.Register(in.Exporter.Collector)
+	if err != nil {
+		return err
+	}
+	var handler http.Handler = promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
+	in.Mux.HandleFunc("/", handler.ServeHTTP)
+	return nil
 }
 
 type NewMuxOutput struct {
@@ -71,19 +77,7 @@ func NewMux(lc fx.Lifecycle) NewMuxOutput {
 	}
 }
 
-func NewPrometheusExporter(lc fx.Lifecycle) (*prometheus.Exporter, error) {
-	// Configs for the tally reporter.
-	config := prometheus.Config{
-		DefaultHistogramBoundaries: []float64{1, 2, 5, 10, 20, 50},
-	}
-	c := controller.New(
-		processor.NewFactory(
-			selector.NewWithHistogramDistribution(
-				histogram.WithExplicitBoundaries(config.DefaultHistogramBoundaries),
-			),
-			aggregation.CumulativeTemporalitySelector(),
-			processor.WithMemory(true),
-		),
-	)
-	return prometheus.New(config, c)
+func NewPrometheusExporter(lc fx.Lifecycle) (*otelprom.Exporter, error) {
+	exporter := otelprom.New()
+	return &exporter, nil
 }

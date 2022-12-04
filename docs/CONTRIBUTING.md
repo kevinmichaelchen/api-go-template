@@ -6,7 +6,7 @@ tokei
 ## Protobufs
 To regenerate protobufs, run 
 ```bash
-make gen-proto
+make buf-gen
 ```
 
 ### Running migrations

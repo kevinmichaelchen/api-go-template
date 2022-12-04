@@ -2,7 +2,8 @@
 
 [![Lines Of Code](https://aschey.tech/tokei/github/kevinmichaelchen/api-go-template?category=code&style=for-the-badge)](https://github.com/kevinmichaelchen/api-go-template)
 [![Postgres](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![Go](https://img.shields.io/badge/--00ADD8?logo=go&logoColor=ffffff&style=for-the-badge)](https://golang.org/)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-go.svg)](https://golang.org/)
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 
 A boilerplate Go repo that comes with:
 

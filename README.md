@@ -1,6 +1,7 @@
 # api-go-template
 
 [![Lines Of Code](https://aschey.tech/tokei/github/kevinmichaelchen/api-go-template?category=code&style=for-the-badge)](https://github.com/kevinmichaelchen/api-go-template)
+![](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 
 A boilerplate Go repo that comes with:
 

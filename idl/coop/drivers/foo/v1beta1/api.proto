@@ -3,6 +3,7 @@ syntax = "proto3";
 package coop.drivers.foo.v1beta1;
 
 import "coop/drivers/foo/v1beta1/foo.proto";
+import "validate/validate.proto";
 
 service FooService {
   rpc CreateFoo(CreateFooRequest) returns (CreateFooResponse) {}
@@ -10,7 +11,7 @@ service FooService {
 }
 
 message GetFooRequest {
-  string id = 1;
+  string id = 1 [(validate.rules).string.min_len = 1];
 }
 
 message GetFooResponse {
@@ -18,7 +19,7 @@ message GetFooResponse {
 }
 
 message CreateFooRequest {
-  string name = 1;
+  string name = 1 [(validate.rules).string.min_len = 1];
 }
 
 message CreateFooResponse {
